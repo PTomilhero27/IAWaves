@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { CreateProps, GetAllProps } from "./types";
+import { CreateProps, EditProps, GetAllProps } from "./types";
 import { apiService } from ".";
+import { useToast } from "../components/ui/toast/use-toast";
 
 export const GetAll = <T>({ url, params, enabled = true }: GetAllProps) => {
   return useQuery<T>({
-    queryKey: [url],
+    queryKey: [url, params],
     queryFn: async () => {
       const res = await apiService.getAll<T>({ url, params });
       return res;
@@ -29,26 +30,38 @@ export const Create = <T>({ url }: CreateProps): any => {
   });
 };
 
-// const edit = <T>({ url, queryKey }: CreateProps) => {
-//   const toast = useToast();
+export const Edit = <T>({ url, queryKeys }: EditProps) => {
+  const toast = useToast();
 
-//   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: async ({ data, id }: any) => {
-//       const res = await transactionService.edit<T>({ url, data, id });
+  return useMutation({
+    mutationFn: async ({ json, id }: any) => {
+      const res = await apiService.edit<T>({ url, json, id });
 
-//       return res;
-//     },
-//     onError: (error) => {
-//       toast.error(`Erro ao editar um registro: ${error}`);
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey });
-//       toast.success("Registro editado com sucesso!");
-//     },
-//   });
-// };
+      return res;
+    },
+    onError: (error) => {
+      toast.toast({
+        variant: "error",
+        title: `Erro ao editar o registro`,
+        description: error.message,
+      });
+    },
+    onSuccess: () => {
+      if (queryKeys) {
+        queryClient.invalidateQueries(queryKeys as any);
+      } else {
+        queryClient.invalidateQueries({ queryKey: [url] });
+      }
+
+      toast.toast({
+        variant: "success",
+        title: "Registro editado com sucesso!",
+      });
+    },
+  });
+};
 
 // const remove = ({ url, queryKey }: DeleteProps) => {
 //   const queryClient = useQueryClient();

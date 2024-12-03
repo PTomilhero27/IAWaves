@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { iaWaves } from "./http";
-import { CreateProps, GetAllProps } from "./types";
+import { CreateProps, EditProps, GetAllProps } from "./types";
 
 export const apiService = {
   async getAll<T>({ url, params }: GetAllProps): Promise<T> {
@@ -33,13 +33,13 @@ export const apiService = {
     return data;
   },
 
-  // async edit({ url, service, json, id }: EditProps) {
-  //   const response = await http[service].patch(`${url}/${id}`, {
-  //     json,
-  //   });
-  //   const data = await response.json();
-  //   return data;
-  // },
+  async edit<T>({ url, json, id }: EditProps) {
+    const response = await iaWaves.put(`${url}/${id}`, {
+      json,
+    });
+    const data: T = await response.json();
+    return data;
+  },
 
   // async delete({ url, service, id }: DeleteProps) {
   //   const response = await http[service].delete(`${url}/${id}`);

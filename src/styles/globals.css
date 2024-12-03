@@ -26,33 +26,62 @@
   --secondary-bg: theme("colors.dark.secondaryBg");
 }
 
-span {
-  color: var(--paragraph);
-}
-
 body {
+  overflow-x: hidden;
   @apply font-sans;
   color: var(--title);
   background-color: var(--bg);
 }
 
 .background-gradient {
-    background: linear-gradient(90deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
-    transition: background 0.3s ease;
+  background: linear-gradient(
+    90deg,
+    var(--secondary-bg) 0%,
+    var(--primary-bg) 100%
+  );
+  transition: background 0.3s ease;
 }
 
 .bg-gradient-login {
-  background: linear-gradient(90deg, var(--secondary-bg) 0%, var(--primary-bg) 100%);
-
+  background: linear-gradient(
+    90deg,
+    var(--secondary-bg) 0%,
+    var(--primary-bg) 100%
+  );
 }
 .bg-login {
-    background-image: url("../app/assets/login/waves_login.svg");
-    background-size: cover; /* Ajusta a imagem para cobrir todo o elemento sem distorcer */
-    background-repeat: no-repeat; /* Evita a repetição da imagem */
-    background-position: center; /* Centraliza a imagem de fundo */
-  }
-
+  background-image: url("../app/assets/login/waves_login.svg");
+  background-size: cover; /* Ajusta a imagem para cobrir todo o elemento sem distorcer */
+  background-repeat: no-repeat; /* Evita a repetição da imagem */
+  background-position: center; /* Centraliza a imagem de fundo */
+}
 
 .background-gradient:hover {
-    background: linear-gradient(90deg,  var(--primary-bg) 0%, var(--secondary-bg) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--primary-bg) 0%,
+    var(--secondary-bg) 100%
+  );
+}
+
+/* Sidebar colapsada */
+[data-state="collapsed"] {
+  width: 70px; /* Mantém 70px no estado colapsado */
+  transition: width 0.2s ease;
+}
+
+/* Sidebar expandida */
+[data-state="expanded"] {
+  width: 240px; /* Largura padrão da sidebar expandida */
+  transition: width 0.2s ease;
+}
+
+/* Esconde os textos no modo colapsado */
+[data-state="collapsed"] .sidebar-text {
+  display: none; /* Apenas os ícones serão visíveis */
+}
+
+/* Ícones e textos alinhados no modo expandido */
+[data-state="expanded"] .sidebar-icon {
+  margin-right: 8px; /* Espaçamento entre ícone e texto */
 }

@@ -10,3 +10,10 @@ export type CreateProps = {
   json?: any; // é o conteudo que é enviado no post
   subRoute?: any; // é caso queira invalidar outra rota que não seja a do post
 };
+
+export type EditProps = {
+  url: string;
+  queryKeys?: any;
+  id?: string | number; // o id do registro que será editado
+  json?: any; // é o conteúdo que é enviado no post
+};

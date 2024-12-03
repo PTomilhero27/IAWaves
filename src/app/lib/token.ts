@@ -9,3 +9,7 @@ export function saveToken(token: string) {
 export function getToken(): string | undefined {
   return Cookies.get("authToken");
 }
+
+export function removeToken() {
+  Cookies.remove("authToken");
+}
